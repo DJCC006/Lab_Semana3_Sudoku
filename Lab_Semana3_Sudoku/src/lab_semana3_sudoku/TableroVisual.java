@@ -19,8 +19,10 @@ public class TableroVisual extends JFrame {
     private String Vacias = "";
     private String[] Numeros = {Vacias, "1", "2", "3", "4", "5", "6", "7", "8", "9"};
     
+    
     public TableroVisual() {
         super("Sudoku - Juego");
+        System.out.println("fdkasdgn ksgbhsbh");
         setSize(800, 600);
         setResizable(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
