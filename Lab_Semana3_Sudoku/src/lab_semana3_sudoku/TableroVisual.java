@@ -30,6 +30,7 @@ public class TableroVisual extends JFrame {
         setLayout(new BorderLayout());
         
         ConstruirGrid();
+        ConstruirBotonera();
         
         JPanel PanelGrid = new JPanel();
         PanelGrid.setLayout(new GridLayout(9, 9, 0, 0)); //9 filas, 9 columnas, absolutamente 0 espacio entre ellos 
@@ -292,5 +293,11 @@ public class TableroVisual extends JFrame {
     */
     public void setCeldaHabilitada(int fila, int col, boolean habilitado) {
         Celdas[fila][col].setEnabled(habilitado);
+    }
+    
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            new TableroVisual(30).setVisible(true);
+        });
     }
 }
