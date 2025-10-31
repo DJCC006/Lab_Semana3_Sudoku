@@ -56,13 +56,76 @@ public abstract class GeneradorTableroLogic {
         return tableroLogico;
     }
     
+    public void addNumero(int fila, int columna, int num){
+        tableroLogico[fila][columna]= num;
+    }
     
-//    
-//    public static void main(String[] args) {
-//        
-//        
-//        genNumerosIniciales(tableroLogico);
-//        printTableroLogico();
-//    }
+    
+    private boolean validacionFilas(int[][] tableroLogico){
+        for(int i=0; i<9; i++){
+            boolean[]vistoYa= new boolean[10];
+            
+            for(int j=0; j<9; j++){
+                int num = tableroLogico[i][j];
+                
+                if(num>=1 && num<=9){
+                    
+                    if(vistoYa[num]){
+                        return false;//Este numero ya se repitio
+                    }
+                    
+                    vistoYa[num]= true;
+                    
+                }
+            }
+        }
+        return true;
+    }
+    
+    private boolean validacionColumnas(int[][] tableroLogico){
+        for(int j=0; j<9; j++){
+            boolean[] vistoYa= new boolean[10];
+            
+            for(int i=0; i<9; i++){
+                int num= tableroLogico[i][j];
+                
+                if(num>= 1 && num<=9){
+                    if(vistoYa[num]){
+                        return false;
+                    }
+                    vistoYa[num]=true;
+                }
+            }
+        }
+        return true;
+    }
+    
+    
+    private boolean validacionCajas(int[][] tableroLogico){
+        for(int k=0; k<9; k++){
+            boolean[] vistoYa = new boolean[10];
+            
+            
+            int nuevaFila= (k/3)*3;
+            int nuevaColumna= (k%3)*3;
+            
+            for(int i=0; i<3; i++){
+                for(int j=0; j<3; j++){
+                 
+                    int num = tableroLogico[nuevaFila+i][nuevaColumna+j];
+                    if(num>=1 && num<=9){
+                        if(vistoYa[num]){
+                            return false;
+                        }
+                        vistoYa[num]=true;
+                    }
+                }
+            }
+            
+        }
+        
+        return true;
+    }
+    
     
 }
