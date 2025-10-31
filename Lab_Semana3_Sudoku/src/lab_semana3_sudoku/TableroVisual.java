@@ -137,6 +137,37 @@ public class TableroVisual extends JFrame {
         return grid;
     }
     
+    private void ManejarCambioCelda(int fila, int col, String celda) {
+        if (Logica == null) {
+            return;
+        }
+        
+        if (celda.isBlank()) {
+            Logica.setvalor(fila, col, 0);
+            Celdas[fila][col].setBackground(Color.WHITE);
+            Celdas[fila][col].setForeground(Color.BLACK);
+            return;
+        }
+        
+        int valor;
+        try {
+            valor = Integer.parseInt(celda);
+        } catch (NumberFormatException e) {
+            return;
+        }
+        
+        if (Logica.PuedeColocar(fila, col, valor)) {
+            Logica.setvalor(fila, col, valor);
+            Celdas[fila][col].setBackground(Color.WHITE);
+            Celdas[fila][col].setForeground(Color.BLACK);
+        } else {
+            SwingUtilities.invokeLater(() -> Celdas[fila][col].setSelectedItem(Vacias));
+            Celdas[fila][col].setBackground(new Color(255, 210, 210));
+            Celdas[fila][col].setForeground(Color.RED);
+            Toolkit.getDefaultToolkit().beep();
+        }
+    }
+    
     /*
         Devolver el grid de la vista
     */
@@ -163,6 +194,8 @@ public class TableroVisual extends JFrame {
         int pistas = (Integer) SpnDificultad.getValue();
         Logica = new LogicaSudoku(pistas);
         GridtoUI(Logica.CopiarGrid(), Logica.getFijadas());
+        
+        Logica.setDesdeUI(GridDesdeUI());
     }
     
     private void SyncVista() {
