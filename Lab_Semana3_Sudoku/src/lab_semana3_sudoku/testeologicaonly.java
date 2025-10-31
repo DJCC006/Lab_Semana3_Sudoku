@@ -11,7 +11,7 @@ package lab_semana3_sudoku;
 public class testeologicaonly extends GeneradorTableroLogic{
     
     public testeologicaonly(){
-        super(new int[9][9]);
+        super(new int[9][9], 8);
         super.printTableroLogico();
     }  
     
