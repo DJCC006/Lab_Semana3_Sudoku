@@ -22,7 +22,6 @@ public class TableroVisual extends JFrame {
     
     public TableroVisual() {
         super("Sudoku - Juego");
-        System.out.println("fdkasdgn ksgbhsbh");
         setSize(800, 600);
         setResizable(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
