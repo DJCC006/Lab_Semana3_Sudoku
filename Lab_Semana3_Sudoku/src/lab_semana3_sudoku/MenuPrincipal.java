@@ -92,9 +92,6 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 System.exit(0);
             }
         });
-        
-        
-        
     }
 
     @SuppressWarnings("unchecked")
