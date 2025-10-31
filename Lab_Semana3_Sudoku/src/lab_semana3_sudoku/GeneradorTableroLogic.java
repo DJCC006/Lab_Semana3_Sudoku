@@ -11,10 +11,13 @@ import java.util.Random;
 public abstract class GeneradorTableroLogic {
     
     protected int[][] tableroLogico;
+    protected int dificultad;//entre mas facil sea la dificultad, mas numeros iniciales son agregados
     
-    public GeneradorTableroLogic(int[][] arregloTablero){
+    public GeneradorTableroLogic(int[][] arregloTablero, int dificultad){
         tableroLogico= arregloTablero;
+        this.dificultad=dificultad;
         genNumerosIniciales();
+        
     }
     
     
@@ -23,9 +26,9 @@ public abstract class GeneradorTableroLogic {
         //gen 4 numeros random
         //filas y columnas random
         Random rand= new Random();
-        int prevfilaRand=0;
-        int prevcolumnaRand=0;
-        for(int i=0; i<5; i++){
+        int prevfilaRand=1;
+        int prevcolumnaRand=1;
+        for(int i=0; i<dificultad; i++){
             int numInit = rand.nextInt(9)+1;
             int filaRand = rand.nextInt(9)+1;
             int columnaRand = rand.nextInt(9)+1;
@@ -56,8 +59,8 @@ public abstract class GeneradorTableroLogic {
         return tableroLogico;
     }
     
-    public void addNumero(int fila, int columna, int num){
-        tableroLogico[fila][columna]= num;
+    public void addNumero(int fila, int columna, int num){//agreguar valores reales
+        tableroLogico[fila-1][columna-1]= num;
     }
     
     
@@ -145,8 +148,5 @@ public abstract class GeneradorTableroLogic {
         
     }
     
-    public static void main(String[] args) {
-        
-    }
     
 }
