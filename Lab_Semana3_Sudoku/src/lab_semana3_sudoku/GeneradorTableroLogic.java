@@ -73,9 +73,9 @@ public abstract class GeneradorTableroLogic {
                     if(vistoYa[num]){
                         return false;//Este numero ya se repitio
                     }
-                    
                     vistoYa[num]= true;
-                    
+                }else{
+                    return false;
                 }
             }
         }
@@ -94,6 +94,8 @@ public abstract class GeneradorTableroLogic {
                         return false;
                     }
                     vistoYa[num]=true;
+                }else{
+                    return false;
                 }
             }
         }
@@ -118,6 +120,8 @@ public abstract class GeneradorTableroLogic {
                             return false;
                         }
                         vistoYa[num]=true;
+                    }else{
+                        return false;
                     }
                 }
             }
@@ -125,6 +129,20 @@ public abstract class GeneradorTableroLogic {
         }
         
         return true;
+    }
+    
+    
+    public boolean ganeValido(){
+        boolean validacionFilas = validacionFilas(tableroLogico);
+        boolean validacionColumnas= validacionColumnas(tableroLogico);
+        boolean validacionCajas=validacionCajas(tableroLogico);
+        
+        
+        if(validacionFilas== true && validacionColumnas == true && validacionCajas== true){
+            return true;
+        }
+        return false;
+        
     }
     
     
