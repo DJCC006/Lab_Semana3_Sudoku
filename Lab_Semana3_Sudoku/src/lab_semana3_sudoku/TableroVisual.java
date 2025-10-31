@@ -24,11 +24,12 @@ public class TableroVisual extends JFrame {
     
     public TableroVisual(int PistasIniciales) {
         super("Sudoku - Juego");
-        setDificultadyGenerar(PistasIniciales);
         setSize(800, 600);
         setResizable(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
+        
+        ConstruirGrid();
         
         JPanel PanelGrid = new JPanel();
         PanelGrid.setLayout(new GridLayout(9, 9, 0, 0)); //9 filas, 9 columnas, absolutamente 0 espacio entre ellos 
@@ -93,6 +94,8 @@ public class TableroVisual extends JFrame {
         add(PanelBotones, BorderLayout.SOUTH);
         setLocationRelativeTo(null);
         setVisible(true);
+        
+        setDificultadyGenerar(PistasIniciales);
     }
     
     public void setDificultadyGenerar(int pistas) {
@@ -190,6 +193,61 @@ public class TableroVisual extends JFrame {
         }
     }
     
+    private void ConstruirGrid() {
+        JPanel grid = new JPanel(new GridLayout(9,9));
+        for (int r=0; r<9; r++) {
+            for (int c=0; c<9; c++) {
+                JComboBox<String> cb = new JComboBox<>(new String[]{"","1","2","3","4","5","6","7","8","9"});
+                Celdas[r][c] = cb;  
+                grid.add(cb);
+            }
+        }
+        add(grid, BorderLayout.CENTER);
+        boolean gridListo = true;
+    }
+    
+    private void ConstruirBotonera() {
+        JPanel panelBotones = new JPanel();
+
+        JLabel lblDificultad = new JLabel("Pistas:");
+        panelBotones.add(lblDificultad);
+
+        SpnDificultad = new JSpinner(new SpinnerNumberModel(30, 5, 60, 1));
+        panelBotones.add(SpnDificultad);
+
+        JButton btnGenerar = new JButton("Generar");
+        btnGenerar.addActionListener(e -> GenerarDesafio());
+        panelBotones.add(btnGenerar);
+
+        JButton btnSync = new JButton("Sincronizar");
+        btnSync.addActionListener(e -> {
+                if (Logica == null) return;
+            Logica.setDesdeUI(GridDesdeUI());
+            
+            JOptionPane.showMessageDialog(this, "Tablero sincronizado con la logica.");
+        });
+        panelBotones.add(btnSync);
+
+        // Botón Validar victoria
+        JButton btnValidar = new JButton("Validar Victoria");
+        btnValidar.addActionListener(e -> {
+            if (Logica == null) return;
+            Logica.setDesdeUI(GridDesdeUI());
+            if (Logica.ganeValido()) {
+                JOptionPane.showMessageDialog(this, " ¡Has ganado! ");
+            } else {
+                JOptionPane.showMessageDialog(this, "El tablero aun no es correcto.");
+            }
+        });
+        panelBotones.add(btnValidar);
+
+        JButton btnLimpiar = new JButton("Limpiar");
+        btnLimpiar.addActionListener(e -> Limpiar());
+        panelBotones.add(btnLimpiar);
+
+        add(panelBotones, BorderLayout.SOUTH);
+    }
+
     private void GenerarDesafio() {
         int pistas = (Integer) SpnDificultad.getValue();
         Logica = new LogicaSudoku(pistas);

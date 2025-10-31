@@ -38,7 +38,6 @@ public class ventanaseleccionDificultad {
      titulo.setBounds(150, 50, 700, 100);
      titulo.setFont(new Font("Serif", Font.BOLD, 50));
      
-        System.out.println("fdnfnjdsfnksd");
      JButton btFacil = new JButton("Facil");
      btFacil.setBackground(Color.LIGHT_GRAY);
      btFacil.setBounds(100,290, 150, 50);
@@ -108,7 +107,7 @@ public class ventanaseleccionDificultad {
      btPlay.addActionListener(new ActionListener(){
      @Override 
      public void actionPerformed(ActionEvent e){
-            System.out.println("REDIRECCIONANDO AL JUEGO");
+            TableroVisual juego = new TableroVisual(dificultad);
         }             
      });
      
