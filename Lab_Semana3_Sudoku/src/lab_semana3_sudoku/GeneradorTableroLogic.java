@@ -60,7 +60,7 @@ public abstract class GeneradorTableroLogic {
     }
     
     public void addNumero(int fila, int columna, int num){//agreguar valores reales
-        tableroLogico[fila-1][columna-1]= num;
+        tableroLogico[fila][columna]= num;
     }
     
     
