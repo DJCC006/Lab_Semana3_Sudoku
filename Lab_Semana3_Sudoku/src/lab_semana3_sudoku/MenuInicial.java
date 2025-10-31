@@ -1,10 +1,13 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package menuinicial;
+package lab_semana3_sudoku;
 
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
@@ -13,13 +16,6 @@ import javax.swing.JLabel;
  * @author David
  */
 public class MenuInicial {
-
-    /**
-     * @param args the command line arguments
-     */
-    
-    
-    
     public MenuInicial(){
      JFrame screen = new JFrame();
      screen.setSize(800, 600);  //Tamaño standard para menus
@@ -36,15 +32,38 @@ public class MenuInicial {
      
      
      
+      JButton btJUGAR = new JButton("JUGAR");
+     btJUGAR.setBounds(100,290, 150, 50);
+     btJUGAR.addActionListener(new ActionListener(){
+     @Override 
+     public void actionPerformed(ActionEvent e){
+            ventanaseleccionDificultad pagina= new ventanaseleccionDificultad();
+            screen.dispose();
+          
+        }             
+     });
      
      
+     JButton btSALIR = new JButton("SALIR");
+     btSALIR.setBounds(300,290, 150, 50);
+     btSALIR.addActionListener(new ActionListener(){
+     @Override 
+     public void actionPerformed(ActionEvent e){
+            screen.dispose();
+        }             
+     });
+     
+     
+     
+     screen.add(btJUGAR);
+     screen.add(btSALIR);
      screen.add(titulo);
      screen.setVisible(true);
     }
     
     
+    
     public static void main(String[] args) {
         MenuInicial ventana = new MenuInicial();
     }
-    
 }
