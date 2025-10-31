@@ -34,6 +34,10 @@ public class LogicaSudoku extends GeneradorTableroLogic {
         }
     }
     
+    public void PuedeColocar() {
+        
+    }
+    
     public int[][] CopiarGrid() {
         int[][] salida = new int [9][9];
         for (int fila = 0; fila < 9; fila++) {

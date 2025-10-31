@@ -22,8 +22,9 @@ public class TableroVisual extends JFrame {
     
     private LogicaSudoku Logica;
     
-    public TableroVisual() {
+    public TableroVisual(int PistasIniciales) {
         super("Sudoku - Juego");
+        setDificultadyGenerar(PistasIniciales);
         setSize(800, 600);
         setResizable(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -92,6 +93,17 @@ public class TableroVisual extends JFrame {
         add(PanelBotones, BorderLayout.SOUTH);
         setLocationRelativeTo(null);
         setVisible(true);
+    }
+    
+    public void setDificultadyGenerar(int pistas) {
+        if (pistas < 5) {
+            pistas = 5;
+        }
+        if (pistas > 5) {
+            pistas = 60;
+        }
+        SpnDificultad.setValue(pistas);
+        GenerarDesafio();
     }
     
     /*
@@ -189,11 +201,5 @@ public class TableroVisual extends JFrame {
     */
     public void setCeldaHabilitada(int fila, int col, boolean habilitado) {
         Celdas[fila][col].setEnabled(habilitado);
-    }
-    
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            new TableroVisual().setVisible(true);
-        });
     }
 }
