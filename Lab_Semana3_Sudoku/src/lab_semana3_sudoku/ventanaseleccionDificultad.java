@@ -118,7 +118,8 @@ public class ventanaseleccionDificultad {
      btRegresar.addActionListener(new ActionListener(){
      @Override 
      public void actionPerformed(ActionEvent e){
-            System.out.println("REDIRECCDIONANDO A PANTALLA INCIO");
+            MenuInicial ventana = new MenuInicial();
+            screen.dispose();
         }             
      });
      
