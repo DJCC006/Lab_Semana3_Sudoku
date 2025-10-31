@@ -15,7 +15,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author David
+ * @author HP
  */
 public class ventanaseleccionDificultad {
     

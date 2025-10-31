@@ -13,7 +13,7 @@ import javax.swing.JLabel;
 
 /**
  *
- * @author David
+ * @author HP
  */
 public class MenuInicial {
     public MenuInicial(){
