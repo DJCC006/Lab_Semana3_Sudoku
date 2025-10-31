@@ -18,7 +18,9 @@ public class TableroVisual extends JFrame {
     private JComboBox<String>[][] Celdas = new JComboBox[9][9];
     private String Vacias = "";
     private String[] Numeros = {Vacias, "1", "2", "3", "4", "5", "6", "7", "8", "9"};
+    private JSpinner SpnDificultad = new JSpinner(new SpinnerNumberModel(25, 5, 60, 1));
     
+    private LogicaSudoku Logica;
     
     public TableroVisual() {
         super("Sudoku - Juego");
@@ -34,8 +36,8 @@ public class TableroVisual extends JFrame {
         
         ListCellRenderer centrado = new DefaultListCellRenderer() {
             @Override
-            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                Component c = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean seleccionado, boolean focuscelda) {
+                Component c = super.getListCellRendererComponent(list, value, index, seleccionado, focuscelda);
                 setHorizontalAlignment(CENTER);
                 return c;
             }
@@ -66,76 +68,30 @@ public class TableroVisual extends JFrame {
         JPanel PanelBotones = new JPanel();
         PanelBotones.setLayout(new FlowLayout(FlowLayout.CENTER));
         
-        JButton BtnCargar = new JButton("Cargar Ejemplo");
-        BtnCargar.addActionListener(e -> CargarEjemplo());
+        JLabel LblPistas = new JLabel("Pistas: ");
+        
+        JButton BtnGenerar = new JButton("Generar");
+        BtnGenerar.addActionListener(e -> GenerarDesafio());
         
         JButton BtnLimpiar = new JButton("Limpiar");
         BtnLimpiar.addActionListener(e -> Limpiar());
         
-        PanelBotones.add(BtnCargar);
+        JButton BtnSincronizar = new JButton("Sincronizar");
+        BtnSincronizar.addActionListener(e -> SyncVista());
+        
+        JButton BtnValidar = new JButton("Validar Victoria");
+        BtnValidar.addActionListener(e -> ValidarVictoria());
+        
+        PanelBotones.add(LblPistas);
+        PanelBotones.add(SpnDificultad);
+        PanelBotones.add(BtnGenerar);
+        PanelBotones.add(BtnSincronizar);
+        PanelBotones.add(BtnValidar);
         PanelBotones.add(BtnLimpiar);
         
         add(PanelBotones, BorderLayout.SOUTH);
         setLocationRelativeTo(null);
         setVisible(true);
-    }
-    
-    /*
-        Como dice, carga el tablero.
-        los 0 son tomados como vacio
-    */
-    public void CargarTablero(int[][] grid, boolean numerosnoceros) {
-        Limpiar();
-        
-        for (int filas = 0; filas < 9; filas++) {
-            for (int col = 0; col < 9; col++) {
-                int wasd = grid[filas][col];
-                
-                if (wasd >= 1 && wasd <= 9) {
-                    Celdas[filas][col].setSelectedItem(String.valueOf(wasd));
-                    
-                    if (numerosnoceros) {
-                        Celdas[filas][col].setEnabled(false);
-                        Celdas[filas][col].setForeground(Color.BLUE);
-                    }
-                }
-            }
-        }
-    }
-    
-    /*
-        Ejemplo para que se forme una idea de que hacer al jugar
-    */
-    public void CargarEjemplo() {
-        int[][] ejemplo = {
-            {0, 0, 0, 2, 6, 0, 7, 0, 1},
-            {6, 8, 0, 0, 7, 0, 0, 9, 0},
-            {1, 9, 0, 0, 0, 4, 5, 0, 0},
-            {8, 2, 0, 1, 0, 0, 0, 4, 0},
-            {0, 0, 4, 6, 0, 2, 9, 0, 0},
-            {0, 5, 0, 0, 0, 3, 0, 2, 8},
-            {0, 0, 9, 3, 0, 0, 0, 7, 4},
-            {0, 4, 0, 0, 5, 0, 0, 3, 6},
-            {7, 0, 3, 0, 1, 8, 0, 0, 0}
-        };
-        
-        for (int fila = 0; fila < 9; fila++) {
-            for (int col = 0; col < 9; col++) {
-                int valor = ejemplo[fila][col];
-                
-                if (valor != 0) {
-                    Celdas[fila][col].setSelectedItem(String.valueOf(valor));
-                    Celdas[fila][col].setEnabled(false);
-                    Celdas[fila][col].setForeground(Color.BLACK);
-                    Celdas[fila][col].setBackground(Color.LIGHT_GRAY);
-                } else {
-                    Celdas[fila][col].setSelectedItem(Vacias);
-                    Celdas[fila][col].setEnabled(true);
-                    Celdas[fila][col].setForeground(Color.BLACK);
-                    Celdas[fila][col].setBackground(Color.WHITE);
-                }
-            }
-        }
     }
     
     /*
@@ -152,17 +108,13 @@ public class TableroVisual extends JFrame {
         }
     }
     
-    /*
-        Devolver el grid de la vista
-    */
-    public Integer[][] getGrid() {
-        Integer[][] grid = new Integer[9][9];
+    private int[][] GridDesdeUI() {
+        int[][] grid = new int[9][9];
         
         for (int fila = 0; fila < 9; fila++) {
             for (int col = 0; col < 9; col++) {
                 Object celda = Celdas[fila][col].getSelectedItem();
-                
-                if (celda == null || Vacias.equals(celda.toString().trim())) {
+                if (celda == null || celda.toString().isBlank()) {
                     grid[fila][col] = 0;
                 } else {
                     grid[fila][col] = Integer.parseInt(celda.toString());
@@ -171,6 +123,61 @@ public class TableroVisual extends JFrame {
         }
         
         return grid;
+    }
+    
+    /*
+        Devolver el grid de la vista
+    */
+    private void GridtoUI(int[][] grid, boolean[][] fijados) {
+        Limpiar();
+        
+        for (int fila = 0; fila < 9; fila++) {
+            for (int col = 0; col < 9; col++) {
+                int valor = grid[fila][col];
+                
+                if (valor != 0) {
+                    Celdas[fila][col].setSelectedItem(String.valueOf(valor));
+                }
+                if (fijados != null && fijados[fila][col]) {
+                    Celdas[fila][col].setEnabled(false);
+                    Celdas[fila][col].setForeground(Color.BLACK);
+                    Celdas[fila][col].setBackground(new Color(220, 220, 220));
+                }
+            }
+        }
+    }
+    
+    private void GenerarDesafio() {
+        int pistas = (Integer) SpnDificultad.getValue();
+        Logica = new LogicaSudoku(pistas);
+        GridtoUI(Logica.CopiarGrid(), Logica.getFijadas());
+    }
+    
+    private void SyncVista() {
+        if (Logica == null) {
+            JOptionPane.showMessageDialog(this, "Primero genera un reto");
+            return;
+        }
+        
+        Logica.setDesdeUI(GridDesdeUI());
+        
+        JOptionPane.showMessageDialog(this, "Tablero sincronizado exitosamente");
+    }
+    
+    public void ValidarVictoria() {
+        if (Logica == null) {
+            JOptionPane.showMessageDialog(this, "Primero genera un reto");
+            return;
+        }
+        
+        Logica.setDesdeUI(GridDesdeUI());
+        boolean victoria = Logica.esVictoria();
+        
+        if (victoria) {
+            JOptionPane.showMessageDialog(this, "Felicidades!\nTu tablero ha sido validado y has ganado!");
+        } else {
+            JOptionPane.showMessageDialog(this, "Tu tablero no ha sido validado como correcto\nArregla tu tablero y vuelve a intentar!", "Vuelve a intentar", JOptionPane.WARNING_MESSAGE);
+        }
     }
     
     public void setCelda(int fila, int col, int valor) {
