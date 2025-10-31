@@ -12,14 +12,14 @@ public abstract class GeneradorTableroLogic {
     
     protected int[][] tableroLogico;
     
-    public GeneradorTableroLogic(){
-        tableroLogico= new int[9][9];
-        
+    public GeneradorTableroLogic(int[][] arregloTablero){
+        tableroLogico= arregloTablero;
+        genNumerosIniciales();
     }
     
     
     
-    private void genNumerosIniciales(int[][] tableroLogico){
+    private void genNumerosIniciales(){
         //gen 4 numeros random
         //filas y columnas random
         Random rand= new Random();
@@ -38,7 +38,7 @@ public abstract class GeneradorTableroLogic {
         }  
     }
     
-    private void printTableroLogico(){
+    public void printTableroLogico(){
         //testing only
         for(int i=0; i<9; i++){
             for(int j=0; j<9; j++){
@@ -132,7 +132,7 @@ public abstract class GeneradorTableroLogic {
     }
     
     
-    public boolean ganeValido(){
+    public  boolean ganeValido(){
         boolean validacionFilas = validacionFilas(tableroLogico);
         boolean validacionColumnas= validacionColumnas(tableroLogico);
         boolean validacionCajas=validacionCajas(tableroLogico);
@@ -145,5 +145,8 @@ public abstract class GeneradorTableroLogic {
         
     }
     
+    public static void main(String[] args) {
+        
+    }
     
 }
