@@ -18,7 +18,7 @@ import javax.swing.border.LineBorder;
  */
 public class MenuPrincipal extends javax.swing.JFrame {
 
-    fondoPanel fondo = new fondoPanel();
+    //fondoPanel fondo = new fondoPanel();
 
     public MenuPrincipal() {
         
@@ -37,7 +37,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         
         JPanel panelPrincipal = new JPanel();
         panelPrincipal.setOpaque(false);
-        panelPrincipal.setLayout(new BoxLayout(panelPrincipal, BoxLayout.Y_AXIS));
+        panelPrincipal.setLayout(new BorderLayout());
 
         //btn salir
         JButton btnSalir = new JButton("SALIR");
@@ -52,23 +52,24 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
         JPanel panelSuperior = new JPanel();
         panelSuperior.setOpaque(false);
-        panelSuperior.setLayout(new FlowLayout(FlowLayout.LEFT));
+        panelSuperior.setLayout(new GridLayout());
         panelSuperior.add(btnSalir);
         panelPrincipal.add(panelSuperior);
 
         JButton btnJugar = new JButton("JUGAR");
         btnJugar.setFont(new Font("Bodoni Bd BT", Font.BOLD, 20));
         btnJugar.setForeground(Color.BLACK);
-        Border bj = new LineBorder(Color.BLACK, 5);
+        Border bj = new LineBorder(new Color(255,204,51), 5);
         btnJugar.setBorder(bj);
         btnJugar.setAlignmentX(Component.CENTER_ALIGNMENT);
         btnJugar.setPreferredSize(new Dimension(250, 50));
         btnJugar.setMaximumSize(new Dimension(250, 50));
-
+        
         panelPrincipal.add(Box.createVerticalGlue());
         panelPrincipal.add(Box.createVerticalStrut(70));
         panelPrincipal.add(Box.createRigidArea(new Dimension(0, 300)));
         panelPrincipal.add(btnJugar);
+        panelPrincipal.add(Box.createRigidArea(new Dimension(0, 10)));
         panelPrincipal.add(Box.createVerticalGlue());
         
         fondo.add(panelPrincipal, BorderLayout.CENTER);
@@ -144,7 +145,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
         @Override
         public void paint(Graphics g) {
-            img = new ImageIcon(getClass().getResource("/imgFondo/fondo.jpg")).getImage();
+            img = new ImageIcon(getClass().getResource("/imgFondo/fondo.png")).getImage();
 
             g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
             setOpaque(false);
