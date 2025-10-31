@@ -18,8 +18,6 @@ import javax.swing.border.LineBorder;
  */
 public class MenuPrincipal extends javax.swing.JFrame {
 
-    //fondoPanel fondo = new fondoPanel();
-
     public MenuPrincipal() {
         
         setTitle("SUDOKU");
@@ -47,23 +45,34 @@ public class MenuPrincipal extends javax.swing.JFrame {
         Border bs = new LineBorder(Color.BLACK, 5);
         btnSalir.setBorder(bs);
         btnSalir.setAlignmentX(Component.LEFT_ALIGNMENT);
-        btnSalir.setPreferredSize(new Dimension(150, 150));
-        btnSalir.setMaximumSize(new Dimension(150, 150));
+        btnSalir.setPreferredSize(new Dimension(100, 50));
+        btnSalir.setMaximumSize(new Dimension(100, 50));
 
         JPanel panelSuperior = new JPanel();
         panelSuperior.setOpaque(false);
-        panelSuperior.setLayout(new GridLayout());
+        panelSuperior.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 20));
         panelSuperior.add(btnSalir);
-        panelPrincipal.add(panelSuperior);
+        panelPrincipal.add(panelSuperior, BorderLayout.NORTH);
 
         JButton btnJugar = new JButton("JUGAR");
-        btnJugar.setFont(new Font("Bodoni Bd BT", Font.BOLD, 20));
-        btnJugar.setForeground(Color.BLACK);
+        btnJugar.setFont(new Font("Bodoni Bd BT", Font.BOLD, 40));
+        btnJugar.setForeground(Color.WHITE);
+        btnJugar.setBackground(new Color(255, 140,0));
         Border bj = new LineBorder(new Color(255,204,51), 5);
         btnJugar.setBorder(bj);
         btnJugar.setAlignmentX(Component.CENTER_ALIGNMENT);
-        btnJugar.setPreferredSize(new Dimension(250, 50));
-        btnJugar.setMaximumSize(new Dimension(250, 50));
+        btnJugar.setPreferredSize(new Dimension(300, 80));
+        btnJugar.setMaximumSize(new Dimension(300, 80));
+        
+        JPanel panelCentral = new JPanel();
+        panelCentral.setOpaque(false);
+        panelCentral.setLayout(new GridBagLayout());
+        panelCentral.add(btnJugar, new GridBagConstraints());
+        
+        panelPrincipal.add(panelCentral, BorderLayout.CENTER);
+        panelPrincipal.add(fondo);
+        panelPrincipal.add(panelSuperior);
+        panelPrincipal.add(btnSalir);
         
         panelPrincipal.add(Box.createVerticalGlue());
         panelPrincipal.add(Box.createVerticalStrut(70));
@@ -73,8 +82,9 @@ public class MenuPrincipal extends javax.swing.JFrame {
         panelPrincipal.add(Box.createVerticalGlue());
         
         fondo.add(panelPrincipal, BorderLayout.CENTER);
+        fondo.setVisible(true);
 
-        this.add(fondo);
+        this.setContentPane(fondo);
         
         btnSalir.addActionListener(new ActionListener() {
             @Override
@@ -82,6 +92,9 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 System.exit(0);
             }
         });
+        
+        
+        
     }
 
     @SuppressWarnings("unchecked")
@@ -145,7 +158,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
         @Override
         public void paint(Graphics g) {
-            img = new ImageIcon(getClass().getResource("/imgFondo/fondo.png")).getImage();
+            img = new ImageIcon(getClass().getResource("lab_semana3_sudoku/imgFondo/fondo.png")).getImage();
 
             g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
             setOpaque(false);
